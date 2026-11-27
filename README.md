@@ -26,7 +26,8 @@ rather than silently treating bots as players.
 - **Poison duration**: configurable (stock 60 minutes by default).
 - **Poison auto-apply**: when a poison runs out on the main or off hand, the same poison (same rank) is taken
   from your bags and put back on that weapon. In dungeons and raids, optionally everywhere. Per character via
-  `.classtweaks poison auto on|off` and `.classtweaks poison outside on|off`, or a supporting addon (see below).
+  `.classtweaks poison auto on|off` and `.classtweaks poison outside on|off`, or from
+  [my DragonUI fork](https://github.com/EvilTactician/wow-addon-DragonUI) (see Addon support below).
 - **Poison attack power scaling**: the attack power part of Instant, Deadly and Wound Poison damage × multiplier.
 - **Find Weakness poison bypass**: with Find Weakness rank 3 (Assassination), poisons and Envenom go through a
   creature's own Nature immunity. Other rogues, bots, players and temporary immunities are unaffected.
@@ -54,9 +55,15 @@ mod-class-tweaks: Find Weakness poison bypass ready (N spells).
 mod-class-tweaks: N Holy Concentration ranks found.
 ```
 
+## Addon support
+
+[My DragonUI fork](https://github.com/EvilTactician/wow-addon-DragonUI) supports the poison auto-apply options:
+rogues get checkboxes for auto-apply in dungeons and raids and outside them. They only appear when the server runs
+this module; everything also works without the addon through the chat command.
+
 ## Addon protocol (optional)
 
-An addon can show the poison auto-apply options. Messages use the addon prefix `ClassTweaks`, sent as an addon
+Any addon can show the poison auto-apply options. Messages use the addon prefix `ClassTweaks`, sent as an addon
 whisper to the player themselves; the server answers the same way.
 
 | Direction | Message | Meaning |
