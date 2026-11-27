@@ -51,8 +51,7 @@ namespace
     constexpr uint32 SETTING_OFF = 1;
     constexpr uint32 SETTING_ON = 2;
 
-    // Addon messages: "ClassTweaks\t<text>", whispered to oneself.
-    std::string const ADDON_PREFIX = "ClassTweaks\t";
+    // Poison addon messages ("STATE ..."), protocol 1.
     constexpr uint32 ADDON_PROTOCOL = 1;
 
     // Poison enchant -> the poison items that apply it (normally one).
@@ -158,13 +157,6 @@ namespace
         if (config.poisonNotify)
             ChatHandler(player->GetSession()).PSendSysMessage("{} ran out on your {}; none left in your bags.",
                 ItemName(itr->second.front()), hand);
-    }
-
-    void SendAddonMessage(Player* player, std::string const& text)
-    {
-        WorldPacket data;
-        ChatHandler::BuildChatPacket(data, CHAT_MSG_WHISPER, LANG_ADDON, player, player, ADDON_PREFIX + text);
-        player->SendDirectMessage(&data);
     }
 }
 

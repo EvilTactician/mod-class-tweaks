@@ -28,6 +28,13 @@ namespace ClassTweaks
         static std::string const key = "mod-class-tweaks";
         return player->CustomData.GetDefault<PlayerState>(key);
     }
+
+    void SendAddonMessage(Player* player, std::string const& text)
+    {
+        WorldPacket data;
+        ChatHandler::BuildChatPacket(data, CHAT_MSG_WHISPER, LANG_ADDON, player, player, ADDON_PREFIX + text);
+        player->SendDirectMessage(&data);
+    }
 }
 
 using namespace ClassTweaks;
@@ -74,6 +81,9 @@ public:
         config.smiteHolyFireMultiplier     = Multiplier("ClassTweaks.Priest.SmiteHolyFire.DamageMultiplier", 1.25f);
         config.holyConcentrationAoE        = sConfigMgr->GetOption<bool>("ClassTweaks.Priest.HolyConcentration.AoEProcs", true);
         config.holyAoESpellPowerMultiplier = Multiplier("ClassTweaks.Priest.HolyAoE.SpellPowerMultiplier", 1.12f);
+
+        // All classes
+        config.talentResetEnabled          = sConfigMgr->GetOption<bool>("ClassTweaks.TalentReset.Enable", true);
     }
 
     // Item, spell and spell data are loaded; the world isn't running yet.
@@ -167,10 +177,14 @@ public:
     }
 
     // Addon messages whispered to oneself ("ClassTweaks\t..."): answered and swallowed.
+    // "TALENTS ..." is the talent reset (any class); everything else is the rogue poison options.
     bool OnPlayerCanUseChat(Player* player, uint32 type, uint32 language, std::string& msg, Player* receiver) override
     {
         if (language != LANG_ADDON || type != CHAT_MSG_WHISPER || receiver != player)
             return true;
+
+        if (TalentResetOnAddonMessage(player, msg))
+            return false;
 
         return !PoisonOnAddonMessage(player, msg);
     }

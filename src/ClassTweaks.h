@@ -24,7 +24,7 @@ class SpellInfo;
 class Unit;
 class WorldPacket;
 
-#define CLASS_TWEAKS_VERSION "1.0.0"
+#define CLASS_TWEAKS_VERSION "1.1.0"
 
 namespace ClassTweaks
 {
@@ -57,6 +57,9 @@ namespace ClassTweaks
         float smiteHolyFireMultiplier = 1.0f; // 1.0 = stock
         bool holyConcentrationAoE = true;
         float holyAoESpellPowerMultiplier = 1.0f;
+
+        // All classes: talent reset without a trainer
+        bool talentResetEnabled = true;
     };
 
     extern Config config;
@@ -88,6 +91,10 @@ namespace ClassTweaks
     };
 
     PlayerState* GetState(Player* player);
+
+    // Addon messages: "ClassTweaks\t<text>", whispered to oneself (ClassTweaksScripts.cpp).
+    inline std::string const ADDON_PREFIX = "ClassTweaks\t";
+    void SendAddonMessage(Player* player, std::string const& text);
 
     // Bot sessions: IsHeadless() on current playerbots cores, IsBot() on older ones. If a core
     // update removes both, the build fails here instead of silently treating bots as players.
@@ -177,6 +184,9 @@ namespace ClassTweaks
     void PriestOnSpellDamage(Unit* target, Unit* attacker, int32& damage, SpellInfo const* spellInfo);
     void PriestOnPeriodicDamage(Unit* target, Unit* attacker, uint32& damage, SpellInfo const* spellInfo);
     void AddPriestSpellScripts();
+
+    // All classes: talent reset (TalentReset.cpp)
+    bool TalentResetOnAddonMessage(Player* player, std::string const& msg);  // false = not ours
 }
 
 #endif

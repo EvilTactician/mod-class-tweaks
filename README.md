@@ -1,10 +1,10 @@
-# Class Tweaks 1.0
+# Class Tweaks 1.1
 
 <div align="center">
 
 ![Interface Version](https://img.shields.io/badge/Interface-30300-blue)
 ![WoW Version](https://img.shields.io/badge/WoW-3.3.5a-orange)
-[![Version](https://img.shields.io/badge/Version-1.0.0-green)](https://github.com/EvilTactician/mod-class-tweaks)
+[![Version](https://img.shields.io/badge/Version-1.1.0-green)](https://github.com/EvilTactician/mod-class-tweaks)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 **AzerothCore module (WotLK 3.3.5a) with class quality-of-life and balance tweaks. No client patch needed. Only real players are affected; playerbots keep stock behaviour. Every feature can be switched off or tuned in `mod_class_tweaks.conf`.**
@@ -39,6 +39,13 @@ rather than silently treating bots as players.
 - **Holy AoE healing** (priests with the Circle of Healing talent): critical Circle of Healing and Prayer of
   Healing heals also trigger Holy Concentration, and their spell power part is multiplied.
 
+## All classes
+
+- **Talent reset without a trainer**: reset the talents of your active spec from
+  [my DragonUI fork's](https://github.com/EvilTactician/wow-addon-DragonUI) talent window, anywhere. It uses the
+  core's own trainer reset, so it costs what the trainer would (free with `NoResetTalentsCost = 1` in
+  `worldserver.conf`). Not in combat, while dead, or in a battleground or arena.
+
 ## Install
 
 1. Put the `mod-class-tweaks` folder in `azerothcore/modules/` (the folder name must stay `mod-class-tweaks`).
@@ -50,7 +57,7 @@ rather than silently treating bots as players.
 The worldserver log shows on startup:
 
 ```
-mod-class-tweaks 1.0.0: N rogue poison enchants found (N poison items, N proc spells).
+mod-class-tweaks 1.1.0: N rogue poison enchants found (N poison items, N proc spells).
 mod-class-tweaks: Find Weakness poison bypass ready (N spells).
 mod-class-tweaks: N Holy Concentration ranks found.
 ```
@@ -60,6 +67,9 @@ mod-class-tweaks: N Holy Concentration ranks found.
 [My DragonUI fork](https://github.com/EvilTactician/wow-addon-DragonUI) supports the poison auto-apply options:
 rogues get checkboxes for auto-apply in dungeons and raids and outside them. They only appear when the server runs
 this module; everything also works without the addon through the chat command.
+
+Its talent window's reset button also resets your talents (after showing the cost) when nothing is staged,
+but only when the server runs this module.
 
 ## Addon protocol (optional)
 
@@ -76,11 +86,27 @@ whisper to the player themselves; the server answers the same way.
 No answer to `HELLO` means the module isn't installed, the character isn't a rogue, or auto-apply is off on
 the realm; the addon should then show nothing.
 
+Talent reset, any class (same prefix):
+
+| Direction | Message | Meaning |
+|---|---|---|
+| client → server | `TALENTS HELLO 1` | Ask whether talent reset is available |
+| client → server | `TALENTS COST` | Ask what a reset costs now |
+| client → server | `TALENTS RESET <copper>` | Reset the active spec; `<copper>` is the cost the player agreed to |
+| server → client | `TALENTS 1` | Available (protocol 1) |
+| server → client | `TALENTS COST <copper>` | Current cost |
+| server → client | `TALENTS DONE` | Talents reset |
+| server → client | `TALENTS ERR <COMBAT\|DEAD\|BATTLEGROUND\|NOTALENTS\|MONEY>` | Not reset, and why |
+| server → client | `TALENTS ERR COST <copper>` | Not reset: the cost went up since the player agreed |
+
+No answer to `TALENTS HELLO` means the module isn't installed or the feature is off.
+
 ## Files
 
 - `src/ClassTweaksScripts.cpp` — config, hooks (each registered only for what it uses), chat command
 - `src/RogueComboPoints.cpp`, `src/RogueQuickLockpick.cpp`, `src/RoguePoisons.cpp`, `src/RogueBalance.cpp`
 - `src/PriestBalance.cpp`
+- `src/TalentReset.cpp`
 - `src/ClassTweaks.h` — shared state and the playerbot check
 - `data/sql/db-world/mod_class_tweaks_spell_scripts.sql` — binds the Holy AoE spell script
 

@@ -147,3 +147,19 @@ ClassTweaks.Priest.SmiteHolyFire.DamageMultiplier = 1.25
 
 ClassTweaks.Priest.HolyConcentration.AoEProcs = 1
 ClassTweaks.Priest.HolyAoE.SpellPowerMultiplier = 1.12
+
+###################################################################################################
+# ALL CLASSES
+###################################################################################################
+
+#
+#    ClassTweaks.TalentReset.Enable
+#        Description: Lets a supporting addon reset the talents of your active spec from anywhere,
+#                     without visiting a class trainer. Works exactly like the trainer's reset: it
+#                     costs what the trainer would (NoResetTalentsCost in worldserver.conf makes it
+#                     free), and a summoned pet is dismissed. Not in combat, while dead, or in a
+#                     battleground or arena.
+#        Default:     1
+#
+
+ClassTweaks.TalentReset.Enable = 1
