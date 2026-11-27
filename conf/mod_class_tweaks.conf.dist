@@ -1,0 +1,149 @@
+[worldserver]
+
+###################################################################################################
+# mod-class-tweaks
+#
+# Class quality-of-life and balance tweaks for WotLK 3.3.5a. No client patch needed.
+# Only real players are affected; playerbots keep stock behaviour.
+# Everything can be changed at runtime with .reload config, except where noted.
+# Client tooltips keep showing stock numbers; the combat log (and damage meters) show the real ones.
+###################################################################################################
+
+###################################################################################################
+# ROGUE
+###################################################################################################
+
+#
+#    ClassTweaks.Rogue.ComboPoints.Enable
+#    ClassTweaks.Rogue.ComboPoints.KeepAfterKill
+#        Description: Combo points follow the rogue from target to target. Unused points move
+#                     to the next hostile target you select or use a builder on.
+#                     KeepAfterKill is how long, in milliseconds, points left on a target that
+#                     died wait for your next target (0 = lost when the target dies; switching
+#                     between living targets still carries them).
+#                     Finishers, duels ending, evade and Premeditation running out lose points
+#                     as in stock.
+#        Default:     1 (Enable), 20000 (KeepAfterKill)
+#
+
+ClassTweaks.Rogue.ComboPoints.Enable = 1
+ClassTweaks.Rogue.ComboPoints.KeepAfterKill = 20000
+
+#
+#    ClassTweaks.Rogue.Lockpick.RightClick
+#    ClassTweaks.Rogue.Lockpick.OpenAfterUnlock
+#        Description: RightClick: right-clicking a locked box in your bags casts Pick Lock on it.
+#                     Boxes that need a key, or that are above your lockpicking skill, behave
+#                     as in stock.
+#                     OpenAfterUnlock: a box in your bags opens as soon as it is unlocked, by
+#                     Pick Lock or a skeleton key (any class).
+#                     Picking a box in the trade window for someone else works as in stock.
+#        Default:     1 (RightClick), 1 (OpenAfterUnlock)
+#
+
+ClassTweaks.Rogue.Lockpick.RightClick = 1
+ClassTweaks.Rogue.Lockpick.OpenAfterUnlock = 1
+
+#
+#    ClassTweaks.Rogue.Poison.DurationMinutes
+#        Description: How long rogue poisons last on a weapon, in minutes.
+#                     0 or 60 leaves the stock duration (1 hour) alone.
+#        Default:     60
+#
+
+ClassTweaks.Rogue.Poison.DurationMinutes = 60
+
+#
+#    ClassTweaks.Rogue.Poison.AutoApply
+#    ClassTweaks.Rogue.Poison.AutoApplyOutside
+#    ClassTweaks.Rogue.Poison.AllowOutside
+#    ClassTweaks.Rogue.Poison.Notify
+#        Description: When a poison runs out on your main or off hand it is put straight back on
+#                     that same weapon, using one of that exact poison (same rank) from your
+#                     bags. With none left you apply it yourself.
+#                     AutoApply: 1 = feature on, inside dungeons and raids; 0 = off for everyone.
+#                     AutoApplyOutside: whether characters also get it outside dungeons and raids
+#                     until they choose for themselves.
+#                     AllowOutside: 0 = never outside dungeons and raids, whatever a character chose.
+#                     Notify: chat message when a poison is re-applied (with how many are left),
+#                     or ran out with none left in your bags.
+#
+#                     Each character can switch both options with ".classtweaks poison auto on|off"
+#                     and ".classtweaks poison outside on|off", or with a supporting addon. These
+#                     choices are kept between sessions only when EnablePlayerSettings = 1 in
+#                     worldserver.conf.
+#        Default:     1 (AutoApply), 0 (AutoApplyOutside), 1 (AllowOutside), 1 (Notify)
+#
+
+ClassTweaks.Rogue.Poison.AutoApply = 1
+ClassTweaks.Rogue.Poison.AutoApplyOutside = 0
+ClassTweaks.Rogue.Poison.AllowOutside = 1
+ClassTweaks.Rogue.Poison.Notify = 1
+
+#
+#    ClassTweaks.Rogue.Poison.APMultiplier
+#        Description: Multiplies the attack power part of Instant, Deadly and Wound Poison damage
+#                     (Instant 10% of AP, Deadly 3% of AP per tick per stack, Wound 4% of AP).
+#                     The base damage of each rank is unchanged, so the bonus grows with gear and
+#                     level. Wound Poison's healing reduction is not affected.
+#                     1.0 = stock.
+#        Default:     1.15
+#
+
+ClassTweaks.Rogue.Poison.APMultiplier = 1.15
+
+#
+#    ClassTweaks.Rogue.FindWeakness.PoisonBypass
+#    ClassTweaks.Rogue.FindWeakness.Notify
+#        Description: PoisonBypass: with Find Weakness rank 3 (Assassination), your poisons and
+#                     Envenom go through a creature's own Nature immunity (elementals, the
+#                     Emerald Dragons and others), so Assassination works on every boss.
+#                     Everyone else still gets "Immune". Players, pets and temporary immunities
+#                     (Divine Shield, Ice Block, boss immunity phases) are never bypassed, nor are
+#                     mechanic immunities such as immunity to Crippling Poison's snare.
+#                     Switching this on needs a worldserver restart; switching it off works with
+#                     .reload config.
+#                     Notify: one chat message the first time your poisons pierce a target.
+#        Default:     1 (PoisonBypass), 1 (Notify)
+#
+
+ClassTweaks.Rogue.FindWeakness.PoisonBypass = 1
+ClassTweaks.Rogue.FindWeakness.Notify = 1
+
+#
+#    ClassTweaks.Rogue.Rupture.DamageMultiplier
+#        Description: Rupture damage per tick. 1.0 = stock.
+#        Default:     1.5
+#
+
+ClassTweaks.Rogue.Rupture.DamageMultiplier = 1.5
+
+###################################################################################################
+# PRIEST
+###################################################################################################
+
+#
+#    ClassTweaks.Priest.SmiteHolyFire.DamageMultiplier
+#        Description: Damage of Smite and Holy Fire (direct hit and damage over time) when not in
+#                     Shadowform, against creatures only. Players and their pets are not
+#                     affected, so PvP stays stock. 1.0 = stock.
+#        Default:     1.25
+#
+
+ClassTweaks.Priest.SmiteHolyFire.DamageMultiplier = 1.25
+
+#
+#    ClassTweaks.Priest.HolyConcentration.AoEProcs
+#    ClassTweaks.Priest.HolyAoE.SpellPowerMultiplier
+#        Description: For priests with the Circle of Healing talent (Holy only).
+#                     AoEProcs: critical heals from Circle of Healing and Prayer of Healing also
+#                     trigger Holy Concentration, using the priest's own talent rank.
+#                     SpellPowerMultiplier: multiplies the spell power part of Circle of Healing
+#                     and Prayer of Healing. The base heal of each rank is unchanged; critical
+#                     heals scale the bonus as usual. 1.0 = stock.
+#                     Both need this module's SQL (applied automatically on startup).
+#        Default:     1 (AoEProcs), 1.12 (SpellPowerMultiplier)
+#
+
+ClassTweaks.Priest.HolyConcentration.AoEProcs = 1
+ClassTweaks.Priest.HolyAoE.SpellPowerMultiplier = 1.12
